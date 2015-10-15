@@ -50,14 +50,14 @@ angular.module('cf.feedback')
 
         if (options.maxMessages !== 1) $scope.feedback = [];
 
-        $scope.hide = function (index, whenDone) {
+        $scope.hide = function (index, whenDone, digest) {
             if (options.maxMessages === 1) {
                 $scope.feedback = null;
                 $timeout(function () {
                     hiding--;
                     if (typeof whenDone === 'function') whenDone();
                 }, options.replaceTime);
-                $scope.$digest();
+                if (digest) $scope.$digest();
             } else {
                 angular.forEach($scope.feedback, function (message) {
                     if (message.index === index) {
@@ -75,7 +75,7 @@ angular.module('cf.feedback')
                             hiding--;
                             if (typeof whenDone === 'function') whenDone();
                         }, options.replaceTime);
-                        $scope.$digest();
+                        if (digest) $scope.$digest();
                     }
                 })
             }
@@ -211,7 +211,7 @@ angular.module('cf.feedback')
             $timeout(function () {
                 $scope.hide(feedback[0].index, function () {
                     showFeedback(feedback);
-                });
+                }, true);
                 $scope.$digest();
             });
         };
@@ -222,7 +222,7 @@ angular.module('cf.feedback')
                     if (!evaluateQueue()) {
                         timeoutOverrulingType = null;
                     }
-                });
+                }, true);
                 $scope.$digest();
             }, timeout);
         };
