@@ -13,11 +13,11 @@ Get the module using Bower by issuing the following command:
 If you're not using bower, download the cf.feedback.min.js from the dist directory.
 
 ## Configure
-Load the CF Feedback module into your index. The bower.json file contains a `main` reference, so using an injector this can be done automatically in case you installed this package through Bower. If you don't use an injector, simply add the following lines to your index file:
+Load the CF Feedback module into your index. The bower.json file contains a `main` reference, so using an injector this can be done automatically in case you installed this package through Bower. If you don't use an injector, simply add the following line to your index file (assuming your index is one directory above your bower dependencies):
 
     <script src="../bower_components/cf.feedback/dist/cf.feedback.min.js"></script>
 
-Next make sure to add the feedback module to your application module, i.e. `angular.module('myAwesomeApp', ['cf.feedback'])`.
+If you manually downloaded the file, just load it from where you put it. Next make sure to add the feedback module to your application module, i.e. `angular.module('myAwesomeApp', ['cf.feedback'])`.
 
 That's it! You're now ready to use it.
 
@@ -58,10 +58,21 @@ Displaying feedback doesn't end here. Sometimes you just want more, you want to 
 The one you'd be looking for is the `maxMessages` setting. If you want to tweak the behaviour of the directive you can override one or more of these options by passing an object along containing the variables to overrule. Say we want to display 3 messages at once, but we like the other settings and don't want to overrule those, we just need to pass the following object along: `{maxMessages: 3}`. Store this object in a variable within your scope, or a public variable within your controller (say `weNeedMoreFeedbackOptions`), and pass it along in your template:
 
     <div feedback fb-options="weNeedMoreFeedbackOptions">
-        <span ng-repeat="feedbackMessage in feedback">{{feedbackMessage.message}}</span>
+        <span ng-repeat="feedbackMessage in feedback track by feedbackMessage.index">{{feedbackMessage.message}}</span>
     </div>
     
 See how we use a repeater to display all feedback messages at once.
+
+## Manual intervention
+If you want to allow the user to manually hide feedback being displayed because that annoying message has been sticking around for too long, you can trigger the `hide` function. In case you have the default settings, that allow only one message to be displayed, you could choose a setup as follows:
+
+    <div feedback class="{{feedback.type}}" ng-click="hide()">{{feedback.message}}</div>
+    
+If you've chosen the path of displaying multiple messages at once, you need to tell the directive which message to hide. You can do so as follows:
+
+    <div feedback fb-options="weNeedMoreFeedbackOptions">
+        <span ng-repeat="feedbackMessage in feedback" ng-click="hide(feedbackMessage.index)">{{feedbackMessage.message}}</span>
+    </div>
 
 ##Queued feedback and other settings
 In case you get too many feedback messages at once for a directive to display, the directive will queue the message to display them after the current message(s) are done. The directive will automatically replace the currently displayed message after a configured amount of time (this is the `queueTimeout` in the settings displayed above).
