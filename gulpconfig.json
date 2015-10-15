@@ -1,6 +1,6 @@
 {
     "env": {
-        "default": "prod",
+        "default": "dist",
         "prod": {
             "jsminify": true,
             "jsconcat": true,
