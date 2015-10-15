@@ -1,0 +1,16 @@
+{
+    "name": "cf.feedback",
+    "version": "0.0.0",
+    "dependencies": {},
+    "main": [
+        "./dist/cf.feedback.min.js"
+    ],
+    "devDependencies": {
+        "angular": "~1.4.0",
+        "angular-translate": "~2.2.0"
+    },
+    "appPath": "src",
+    "resolutions": {
+        "angular": "1.4.0"
+    }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="cf.feedback.demo" ng-controller="PlaygroundCtrl as app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Feedback test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-translate/angular-translate.js"></script>
+    <script src="../dist/cf.feedback.min.js"></script>
+</head>
+<body>
+<div feedback>{{feedback.message}}</div>
+<br />
+<div feedback fb-options="app.messageListOptions">
+    <span ng-repeat="feedbackMessage in feedback">{{feedbackMessage.message}}</span>
+</div>
+<script>
+    angular.module('cf.feedback.demo', ['cf.feedback', 'pascalprecht.translate'])
+        .provider('exampleTranslations', function () {
+            // this provider is only required if you want to support translated feedback
+            var translator;
+            var translations = {
+                'FEEDBACK': {
+                    'ERROR': {
+                        'TEST': "This is a translated test error"
+                    }
+                }
+            };
+
+            return {
+                list: function () {
+                    return translations;
+                },
+                translate: function () {
+                    return translator.apply(this, arguments);
+                },
+                $get: function ($translate) {
+                    var self = this;
+                    translator = $translate;
+                    return {
+                        list: self.list
+                    }
+                }
+            };
+        }).factory('customLoader', function ($q, exampleTranslations) {
+            // create a custom loader factory for the translations. This is only required if you use translated feedback, if you just use static feedback, you don't need it
+            return function () {
+                return $q.when(exampleTranslations.list());
+            };
+        }).config(function ($translateProvider, cfFeedbackProvider, exampleTranslationsProvider) {
+            // the configuration of the feedback management module and the translation module is only required if you use translated feedback, for static feedback and no translation this whole configuration block is not required
+            $translateProvider.preferredLanguage('en');
+            $translateProvider.useLoader('customLoader');
+
+            cfFeedbackProvider.configureTranslations(exampleTranslationsProvider.list, exampleTranslationsProvider.translate);
+
+        }).controller('PlaygroundCtrl', function ($feedback, $translate, $timeout) {
+            $translate.use('en');
+            $translate.refresh();
+
+            this.messageListOptions = {
+                maxMessages: 3
+            };
+
+            $timeout(function () {
+                $feedback.error('This is an untranslated error message');
+                $feedback.error('And another');
+                $feedback.error('And yet another');
+                $feedback.error('{TEST}');
+                $feedback.error('{TEST}');
+                $feedback.error('{TEST}');
+            })
+        });
+</script>
+</body>
+</html>

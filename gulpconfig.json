@@ -1,0 +1,24 @@
+{
+    "env": {
+        "default": "prod",
+        "prod": {
+            "jsminify": true,
+            "jsconcat": true,
+            "sourcemaps": true
+        },
+        "dev": {
+            "jsminify": false,
+            "jsconcat": false,
+            "sourcemaps": true
+        },
+        "dist": {
+            "jsminify": true,
+            "jsconcat": true,
+            "sourcemaps": false
+        }
+    },
+    "paths": {
+        "dist": "dist",
+        "src": "src"
+    }
+}
