@@ -20,21 +20,13 @@ angular.module('cf.feedback')
             transclude: true,
             compile: function (tElement, attrs, transclude) {
                 return function ($scope) {
-                    var handleFeedback = function(feedback) {
-                        $scope.handle(feedback);
-                    };
-                    if ($scope.elementId === '') $scope.elementId = void 0;
-                    cfFeedback.subscribe(handleFeedback, $scope.elementId);
-                    $scope.$on("$destroy", function() {
-                        cfFeedback.unsubscribe(handleFeedback, $scope.elementId);
-                    });
                     transclude($scope, function (clone) {
                         tElement.append(clone);
                     });
                 };
             }
         };
-    }).controller('FeedbackCtrl', function ($scope, $timeout, cfFeedback, $translate, FEEDBACK_TYPE) {
+    }).controller('FeedbackCtrl', function ($scope, $timeout, cfFeedback, FEEDBACK_TYPE) {
         var that = this,
             index = 0,
             timeoutOverrulingType = null,
@@ -46,13 +38,19 @@ angular.module('cf.feedback')
             options = angular.extend({}, options, $scope.fbOptions);
         }
 
-        $scope.handle = function(feedback) {
+        var handle = function(feedback) {
             handleFeedback(feedback);
         };
 
+        if ($scope.elementId === '') $scope.elementId = void 0;
+        cfFeedback.subscribe(handle, $scope.elementId);
+        $scope.$on("$destroy", function() {
+            cfFeedback.unsubscribe(handle, $scope.elementId);
+        });
+
         if (options.maxMessages !== 1) $scope.feedback = [];
 
-        this.hide = function (index, whenDone) {
+        $scope.hide = function (index, whenDone) {
             if (options.maxMessages === 1) {
                 $scope.feedback = null;
                 $timeout(function () {
@@ -211,7 +209,7 @@ angular.module('cf.feedback')
 
         var replaceFeedback = function (feedback) {
             $timeout(function () {
-                that.hide(feedback[0].index, function () {
+                $scope.hide(feedback[0].index, function () {
                     showFeedback(feedback);
                 });
                 $scope.$digest();
@@ -220,7 +218,7 @@ angular.module('cf.feedback')
 
         var timeoutFeedback = function (feedback, timeout) {
             feedback.timeout = setTimeout(function () {
-                that.hide(feedback.index, function() {
+                $scope.hide(feedback.index, function() {
                     if (!evaluateQueue()) {
                         timeoutOverrulingType = null;
                     }
@@ -258,14 +256,14 @@ angular.module('cf.feedback')
 
         var translateFeedback = function(feedback) {
             if (typeof feedback.paths === 'object') {
-                $translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths.message + '._MESSAGE', feedback.data).then(function (translatedFeedback) {
+                cfFeedback.translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths.message + '._MESSAGE', feedback.data).then(function (translatedFeedback) {
                     feedback.message = translatedFeedback;
                 });
-                $translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths.reference + '._DETAILS', feedback.data).then(function (translatedFeedback) {
+                cfFeedback.translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths.reference + '._DETAILS', feedback.data).then(function (translatedFeedback) {
                     feedback.details = translatedFeedback;
                 });
             } else {
-                $translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths, feedback.data).then(function (translatedFeedback) {
+                cfFeedback.translate('FEEDBACK.' + feedback.staticType + '.' + feedback.paths, feedback.data).then(function (translatedFeedback) {
                     feedback.message = translatedFeedback;
                 });
             }
