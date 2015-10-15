@@ -6,7 +6,16 @@
         "dist/cf.feedback.min.js"
     ],
 	"ignore": [
-		"test"
+		"test",
+		".jshintrc",
+		".scss-list.yml",
+		".travis.yml",
+		"gulpconfig.json",
+		"gulpfile.js",
+		".editorconfig",
+		".gitattributes",
+		".gitignore",
+		".bowerrc"
 	],
     "devDependencies": {
         "angular": "~1.4.0",
