@@ -87,6 +87,10 @@ If you just don't like the default options, and want to use different default op
         cfFeedbackProvider.configureDefaultOptions(myOptionsAreBetter);
     }
 
+If you do not want to change the options during the configuration phase because you have an external configuration file that is loaded during the run phase, you can just as well override the defaults at any time while running the application by injecting `cfFeedback` and calling:
+
+    cfFeedback.setDefaultOptions(yourMoreAwesomeOptions);
+
 ##Using translated feedback
 Sometimes we like to do things the proper way. At some point you realize that it's not really maintainable to use static texts to tell your user your amazing stories. Text can be quite dynamic, sometimes it has some dynamic variables, and sometimes they just don't speak your native tongue. If you want to use translations I recommend using the `pascalprecht.translate` module (which is also used in the `test/playground` of this project). Say that you use that library to take care of your translations, you need to do some configuration to tell the feedback module that you want to enhance it with translations. The following example shows you how you would use it with a static inline json list with translations (which you should of course dynamically retrieve when you're up for the real task):
 

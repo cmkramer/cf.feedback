@@ -36,6 +36,7 @@ angular.module('cf.feedback')
             },
 
             $get: function () {
+                var self = this;
                 return {
                     subscribe: function (callback, contextElement) {
                         if (contextElement === void 0) {
@@ -65,6 +66,10 @@ angular.module('cf.feedback')
 
                     getDefaultOptions: function () {
                         return defaultOptions;
+                    },
+
+                    setDefaultOptions: function (options) {
+                        return self.configureDefaultOptions(options);
                     },
 
                     listTranslations: function () {
