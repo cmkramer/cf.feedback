@@ -5,14 +5,14 @@ The current version of this directive does not contain automated tests, nor does
 
 This directive allows you to easily publish and display user feedback throughout your angular application. It can be as simple as doing the following:
 
-##Installation
+## Installation
 Get the module using Bower by issuing the following command:
 
     bower install cf.feedback --save
 
 If you're not using bower, download the cf.feedback.min.js from the dist directory.
 
-## Configure
+### Configure
 Load the CF Feedback module into your index. The bower.json file contains a `main` reference, so using an injector this can be done automatically in case you installed this package through Bower. If you don't use an injector, simply add the following line to your index file (assuming your index is one directory above your bower dependencies):
 
     <script src="../bower_components/cf.feedback/dist/cf.feedback.min.js"></script>
@@ -43,7 +43,7 @@ To subscribe a directive that will display a message specifically for that refer
 
     <div feedback="yourUniqueId" class="{{feedback.type}}">{{feedback.message}}</div>
     
-##Displaying multiple messages simultaneously
+### Displaying multiple messages simultaneously
 Displaying feedback doesn't end here. Sometimes you just want more, you want to show the user how much you care about informing them about a lot of things at the same time. To do so, you can tell your directive that it should display more than 1 feedback message at once in case they occur at the same time, or within a designated timespan. To allow this, you will need a custom option. The following options are available for this directive which you can overrule by passing a custom options object:
 
     {
@@ -63,7 +63,7 @@ The one you'd be looking for is the `maxMessages` setting. If you want to tweak 
     
 See how we use a repeater to display all feedback messages at once.
 
-## Manual intervention
+### Manual intervention
 If you want to allow the user to manually hide feedback being displayed because that annoying message has been sticking around for too long, you can trigger the `hide` function. In case you have the default settings, that allow only one message to be displayed, you could choose a setup as follows:
 
     <div feedback class="{{feedback.type}}" ng-click="hide()">{{feedback.message}}</div>
@@ -74,7 +74,7 @@ If you've chosen the path of displaying multiple messages at once, you need to t
         <span ng-repeat="feedbackMessage in feedback" ng-click="hide(feedbackMessage.index)">{{feedbackMessage.message}}</span>
     </div>
 
-##Queued feedback and other settings
+## Queued feedback and other settings
 In case you get too many feedback messages at once for a directive to display, the directive will queue the message to display them after the current message(s) are done. The directive will automatically replace the currently displayed message after a configured amount of time (this is the `queueTimeout` in the settings displayed above).
 
 The severity of a next feedback message influences the screentime of a previous message. In case the current message displayed is a notice, and we get a queued error, success or alert message, considering the default options, the notice will only be displayed for 1 second after the error message is received. If the currently displayed message is not a notice, it will be forced to a reduced 3 second screentime. If we don't get another message in queue during the screentime of our current message, the full `cleanTimeout` is used to display the message, which is set to 6 seconds as a default.
@@ -102,7 +102,7 @@ If you do not want to change the options during the configuration phase because 
 
     cfFeedback.setDefaultOptions(yourMoreAwesomeOptions);
 
-##Using translated feedback
+## Using translated feedback
 Sometimes we like to do things the proper way. At some point you realize that it's not really maintainable to use static texts to tell your user your amazing stories. Text can be quite dynamic, sometimes it has some dynamic variables, and sometimes they just don't speak your native tongue. If you want to use translations I recommend using the `pascalprecht.translate` module (which is also used in the `test/playground` of this project). Say that you use that library to take care of your translations, you need to do some configuration to tell the feedback module that you want to enhance it with translations. The following example shows you how you would use it with a static inline json list with translations (which you should of course dynamically retrieve when you're up for the real task):
 
     angular.module('cf.feedback.demo', ['cf.feedback', 'pascalprecht.translate'])
@@ -191,7 +191,7 @@ We still want more!! Sometimes you have this situation where you have a generic 
     
 This works in a way that the directive will search for the `_MESSAGE` closest to your reference. You can specify one next to your `_DETAILS` element if you want to overrule the higher level one. Make sure you include an `UNKNOWN` root feedback element within a type to fall back on automatically when the referenced feedback seems to be missing in the translation file.
 
-##License
+## License
 CF.Feedback version 0.5, Copyright (C) 2015 Christian Kramer. 
 
 The feedback directive comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under certain conditions as mentioned in the enclosed License file.
