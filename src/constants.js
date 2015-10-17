@@ -1,10 +1,10 @@
 /**
  * @ngdoc overview
- * @name finqApp.constants:EVENTS
+ * @name cf.feedback.constants:FEEDBACK_TYPE
  * @description
- * # Application Events
+ * # Application constants
  *
- * Any event used throughout the application should be defined here as a constant.
+ * Generic feedback type constant
  */
 
 angular.module('cf.feedback')

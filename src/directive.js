@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc overview
- * @name finqApp:FeedbackCtrl
+ * @name cf.feedback.directive:feedback
  * @description
- * # Feedback controller
+ * # Main application directive
  *
- * Handle rendering and iteraction with user feedback.
+ * The directive that allows you to display feedback
  */
 angular.module('cf.feedback')
     .directive('feedback', function () {
