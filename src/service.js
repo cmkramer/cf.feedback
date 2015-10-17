@@ -39,6 +39,7 @@ angular.module('cf.feedback')
                 var self = this;
                 return {
                     subscribe: function (callback, contextElement) {
+                        if (contextElement === '') contextElement = void 0;
                         if (contextElement === void 0) {
                             listeners.global.push(callback);
                         } else {
@@ -48,7 +49,8 @@ angular.module('cf.feedback')
                     },
 
                     unsubscribe: function (callback, contextElement) {
-                        var targetList = contextElement === void 0 ? listeners.global : listeners.identified[contextElement];
+                        if (contextElement === '') contextElement = void 0;
+                        var targetList = (contextElement === void 0 ? listeners.global : listeners.identified[contextElement]);
                         for (var i = 0; i < targetList.length; i++) {
                             if (targetList[i] === callback) {
                                 targetList.splice(i, 1);
