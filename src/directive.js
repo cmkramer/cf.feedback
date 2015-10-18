@@ -77,7 +77,8 @@ angular.module('cf.feedback')
 
                 var handleFeedback = function (feedbackSpec) {
                     var feedback = {
-                        staticType: feedbackSpec.type
+                        staticType: feedbackSpec.type,
+                        data: feedbackSpec.data
                     };
                     var translatableMessage = translatable(feedbackSpec.message);
                     if (translatableMessage) {
@@ -91,7 +92,6 @@ angular.module('cf.feedback')
                     }
                     feedback.details = null;
                     feedback.type = feedbackSpec.type.toLowerCase();
-                    feedback.data = feedbackSpec.data;
                     if (allowProcessing(feedback)) {
                         processNewFeedbackMessage(feedback);
                     }

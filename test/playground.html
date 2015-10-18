@@ -23,7 +23,7 @@
             var translations = {
                 'FEEDBACK': {
                     'ERROR': {
-                        'TEST': "This is a translated test error"
+                        'TEST': "This is a translated test error {{test}}"
                     }
                 }
             };
@@ -67,9 +67,7 @@
                 $feedback.error('This is an untranslated error message');
                 $feedback.error('And another');
                 $feedback.error('And yet another');
-                $feedback.error('{TEST}');
-                $feedback.error('{TEST}');
-                $feedback.error('{TEST}');
+                $feedback.error('{TEST}', {test: 'oh yeah'});
             })
         });
 </script>
