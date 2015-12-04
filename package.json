@@ -1,7 +1,7 @@
 {
   "name": "cf.feedback",
   "author": "Christian Kramer <cmkramer@gmail.com>",
-  "version": "0.0.0",
+  "version": "0.5.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/cmkramer/cf.feedback.git"

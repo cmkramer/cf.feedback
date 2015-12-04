@@ -211,14 +211,16 @@ angular.module('cf.feedback')
                 };
 
                 var timeoutFeedback = function (feedback, timeout) {
-                    feedback.timeout = setTimeout(function () {
-                        $scope.hide(feedback.index, function() {
-                            if (!evaluateQueue()) {
-                                timeoutOverrulingType = null;
-                            }
-                        });
-                        $scope.$digest();
-                    }, timeout);
+                    if (timeout) {
+                        feedback.timeout = setTimeout(function () {
+                            $scope.hide(feedback.index, function () {
+                                if (!evaluateQueue()) {
+                                    timeoutOverrulingType = null;
+                                }
+                            });
+                            $scope.$digest();
+                        }, timeout);
+                    }
                 };
 
                 var evaluateQueue = function () {

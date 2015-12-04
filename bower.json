@@ -1,6 +1,6 @@
 {
     "name": "cf.feedback",
-    "version": "0.5.3",
+    "version": "0.5.4",
     "dependencies": {},
     "main": [
         "dist/cf.feedback.min.js"
