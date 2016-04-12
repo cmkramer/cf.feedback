@@ -32,5 +32,21 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  }
+  },
+  "description": "###A dynamic feedback directive The current version of this directive does not contain automated tests, nor does it contain styled examples, these will be added soon.",
+  "homepage": "https://github.com/cmkramer/cf.feedback#readme",
+  "main": "dist/cf.feedback.min.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "feedback",
+    "global",
+    "angular",
+    "directive"
+  ],
+  "license": "Apache-2.0"
 }

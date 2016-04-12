@@ -156,6 +156,10 @@ angular.module('cf.feedback')
                             traversed = false;
                             if (lastMessagePath) {
                                 console.debug('untranslated '+feedbackType.toLowerCase()+' feedback reference provided: '+reference+'. Falling back to most specific message: '+lastMessagePath);
+                                fb = {
+                                    reference: lastMessagePath,
+                                    message: lastMessagePath
+                                };
                             } else {
                                 fb = {
                                     reference: 'UNKNOWN',
