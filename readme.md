@@ -64,8 +64,6 @@ The one you'd be looking for is the `maxMessages` setting. If you want to tweak 
     
 See how we use a repeater to display all feedback messages at once.
 
-In case you want your feedback to be persistent, and don't want it to disappear after a set amount of time, you can set the timeout variables to 0.
-
 ### Manual intervention
 If you want to allow the user to manually hide feedback being displayed because that annoying message has been sticking around for too long, you can trigger the `hide` function. In case you have the default settings, that allow only one message to be displayed, you could choose a setup as follows:
 
@@ -81,6 +79,8 @@ If you've chosen the path of displaying multiple messages at once, you need to t
 In case you get too many feedback messages at once for a directive to display, the directive will queue the message to display them after the current message(s) are done. The directive will automatically replace the currently displayed message after a configured amount of time (this is the `queueTimeout` in the settings displayed above).
 
 The severity of a next feedback message influences the screentime of a previous message. In case the current message displayed is a notice, and we get a queued error, success or alert message, considering the default options, the notice will only be displayed for 1 second after the error message is received. If the currently displayed message is not a notice, it will be forced to a reduced 3 second screentime. If we don't get another message in queue during the screentime of our current message, the full `cleanTimeout` is used to display the message, which is set to 6 seconds as a default.
+
+In case you want your feedback to be persistent, and don't want it to disappear after a set amount of time, you can set the timeout variables to 0.
 
 To avoid several messages that are in essence the same, to be displayed all at once, the `allowDuplicateStacked` is set to false. This ensures that only one feedback message containing the same message is displayed. If you like to flood your users by telling them the same thing several times at once, you can set this to `true`.
 
