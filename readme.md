@@ -6,11 +6,12 @@ The current version of this directive does not contain automated tests, nor does
 This directive allows you to easily publish and display user feedback throughout your angular application. It can be as simple as doing the following:
 
 ## Installation
-Get the module using Bower by issuing the following command:
+Get the module using Bower or NPM by issuing one of the the following commands:
 
     bower install cf.feedback --save
+    npm install cf.feedback
 
-If you're not using bower, download the cf.feedback.min.js from the dist directory.
+If you're not using Bower or NPM, download the cf.feedback.min.js from the dist directory.
 
 ### Configure
 Load the CF Feedback module into your index. The bower.json file contains a `main` reference, so using an injector this can be done automatically in case you installed this package through Bower. If you don't use an injector, simply add the following line to your index file (assuming your index is one directory above your bower dependencies):
@@ -62,6 +63,8 @@ The one you'd be looking for is the `maxMessages` setting. If you want to tweak 
     </ul>
     
 See how we use a repeater to display all feedback messages at once.
+
+In case you want your feedback to be persistent, and don't want it to disappear after a set amount of time, you can set the timeout variables to 0.
 
 ### Manual intervention
 If you want to allow the user to manually hide feedback being displayed because that annoying message has been sticking around for too long, you can trigger the `hide` function. In case you have the default settings, that allow only one message to be displayed, you could choose a setup as follows:
