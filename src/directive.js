@@ -130,7 +130,9 @@ angular.module('cf.feedback')
                             queueFeedback(feedback);
                         }
                     } else {
-                        showFeedback(feedback);
+                        $timeout(function() {
+                            showFeedback(feedback);
+                        });
                     }
                 };
 
@@ -210,7 +212,6 @@ angular.module('cf.feedback')
                         $scope.hide(feedback[0].index, function () {
                             showFeedback(feedback);
                         });
-                        $scope.$digest();
                     });
                 };
 
