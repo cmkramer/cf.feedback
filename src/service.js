@@ -20,6 +20,7 @@ angular.module('cf.feedback')
             cleanTimeout: 6000,
             queueTimeout: 3000,
             minTimeout: 1000,
+            silentReplace: false,
             allowDuplicateStacked: false,
             maxMessages: 1
         };
@@ -51,18 +52,22 @@ angular.module('cf.feedback')
                     unsubscribe: function (callback, contextElement) {
                         if (contextElement === '') contextElement = void 0;
                         var targetList = (contextElement === void 0 ? listeners.global : listeners.identified[contextElement]);
-                        for (var i = 0; i < targetList.length; i++) {
-                            if (targetList[i] === callback) {
-                                targetList.splice(i, 1);
-                                break;
+                        if (targetList) {
+                            for (var i = 0; i < targetList.length; i++) {
+                                if (targetList[i] === callback) {
+                                    targetList.splice(i, 1);
+                                    break;
+                                }
                             }
                         }
                     },
 
                     publish: function (feedback) {
                         var targetList = feedback.contextElement === void 0 ? listeners.global : listeners.identified[feedback.contextElement];
-                        for (var i = 0; i < targetList.length; i++) {
-                            if (typeof targetList[i] === 'function') targetList[i](feedback);
+                        if (targetList) {
+                            for (var i = 0; i < targetList.length; i++) {
+                                if (typeof targetList[i] === 'function') targetList[i](feedback);
+                            }
                         }
                     },
 

@@ -10,7 +10,8 @@
     <script src="../dist/cf.feedback.min.js"></script>
 </head>
 <body>
-<div feedback>{{feedback.message}}</div>
+<div feedback>{{feedback.message}}</div><br>
+<div feedback="replaceMe" fb-options="app.replaceOptions">{{feedback.message}}</div>
 <br />
 <div feedback fb-options="app.messageListOptions">
     <span ng-repeat="feedbackMessage in feedback">{{feedbackMessage.message}}</span>
@@ -63,11 +64,21 @@
                 maxMessages: 3
             };
 
+            this.replaceOptions = {
+                maxMessages: 1,
+                silentReplace: true,
+                cleanTimeout: 0
+            };
+
             $timeout(function () {
                 $feedback.error('This is an untranslated error message');
                 $feedback.error('And another');
                 $feedback.error('And yet another');
                 $feedback.error('{TEST}', {test: 'oh yeah'});
+                $feedback.error('{TEST}', {test: 'oh man'}, 'replaceMe');
+                $timeout(function() {
+                    $feedback.error('{TEST}', {test: 'booya!'}, 'replaceMe');
+                },2000);
             })
         });
 </script>

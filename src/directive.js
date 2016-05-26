@@ -107,7 +107,7 @@ angular.module('cf.feedback')
                     if (options.allowDuplicateStacked) return true;
                     var allow = true;
                     var validateMessage = function(currentFeedback) {
-                        if (currentFeedback.type === feedback.type && currentFeedback.reference === feedback.reference) {
+                        if (currentFeedback.type === feedback.type && currentFeedback.reference === feedback.reference && !options.silentReplace) {
                             allow = false;
                         }
                     };
@@ -209,9 +209,14 @@ angular.module('cf.feedback')
 
                 var replaceFeedback = function (feedback) {
                     $timeout(function () {
-                        $scope.hide(feedback[0].index, function () {
+                        if (options.silentReplace && feedback.reference === $scope.feedback.reference && options.maxMessages === 1) {
+                            clearTimeout($scope.feedback.timeout);
                             showFeedback(feedback);
-                        });
+                        } else {
+                            $scope.hide((options.maxMessages === 1 ? $scope.feedback : $scope.feedback[0]).index, function () {
+                                showFeedback(feedback);
+                            });
+                        }
                     });
                 };
 
