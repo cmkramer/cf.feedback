@@ -26,6 +26,7 @@ angular.module('cf.feedback')
             },
             controller: function ($scope, $timeout, cfFeedback, FEEDBACK_TYPE) {
                 var index = 0,
+                    that = this,
                     timeoutOverrulingType = null,
                     queue = [],
                     hiding = 0,
@@ -35,13 +36,23 @@ angular.module('cf.feedback')
                     options = angular.extend({}, options, $scope.fbOptions);
                 }
 
-                var handle = function(feedback) {
+                this.handle = function(feedback) {
                     handleFeedback(feedback);
                 };
 
-                cfFeedback.subscribe(handle, $scope.elementId);
+                this.close = function() {
+                    if (options.maxMessages === 1) {
+                        $scope.hide();
+                    } else {
+                        angular.forEach($scope.feedback, function (message) {
+                            $scope.hide(message.index);
+                        });
+                    }
+                };
+
+                cfFeedback.subscribe(that, $scope.elementId);
                 $scope.$on("$destroy", function() {
-                    cfFeedback.unsubscribe(handle, $scope.elementId);
+                    cfFeedback.unsubscribe(that, $scope.elementId);
                 });
 
                 if (options.maxMessages !== 1) $scope.feedback = [];

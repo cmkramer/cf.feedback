@@ -10,7 +10,7 @@
     <script src="../dist/cf.feedback.min.js"></script>
 </head>
 <body>
-<div feedback>{{feedback.message}}</div><br>
+<div feedback ng-click="app.globalClose()">{{feedback.message}}</div><br>
 <div feedback="replaceMe" fb-options="app.replaceOptions">{{feedback.message}}</div>
 <br />
 <div feedback fb-options="app.messageListOptions">
@@ -68,6 +68,10 @@
                 maxMessages: 1,
                 silentReplace: true,
                 cleanTimeout: 0
+            };
+
+            this.globalClose = function() {
+                $feedback.close();
             };
 
             $timeout(function () {

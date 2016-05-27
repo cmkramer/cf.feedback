@@ -39,22 +39,22 @@ angular.module('cf.feedback')
             $get: function () {
                 var self = this;
                 return {
-                    subscribe: function (callback, contextElement) {
+                    subscribe: function (directive, contextElement) {
                         if (contextElement === '') contextElement = void 0;
                         if (contextElement === void 0) {
-                            listeners.global.push(callback);
+                            listeners.global.push(directive);
                         } else {
                             listeners.identified[contextElement] = listeners.identified[contextElement] || [];
-                            listeners.identified[contextElement].push(callback);
+                            listeners.identified[contextElement].push(directive);
                         }
                     },
 
-                    unsubscribe: function (callback, contextElement) {
+                    unsubscribe: function (directive, contextElement) {
                         if (contextElement === '') contextElement = void 0;
                         var targetList = (contextElement === void 0 ? listeners.global : listeners.identified[contextElement]);
                         if (targetList) {
                             for (var i = 0; i < targetList.length; i++) {
-                                if (targetList[i] === callback) {
+                                if (targetList[i].handle === directive.handle) {
                                     targetList.splice(i, 1);
                                     break;
                                 }
@@ -66,7 +66,16 @@ angular.module('cf.feedback')
                         var targetList = feedback.contextElement === void 0 ? listeners.global : listeners.identified[feedback.contextElement];
                         if (targetList) {
                             for (var i = 0; i < targetList.length; i++) {
-                                if (typeof targetList[i] === 'function') targetList[i](feedback);
+                                if (targetList[i] && typeof targetList[i].handle === 'function') targetList[i].handle(feedback);
+                            }
+                        }
+                    },
+
+                    close: function (contextElement) {
+                        var targetList = contextElement === void 0 ? listeners.global : listeners.identified[contextElement];
+                        if (targetList) {
+                            for (var i = 0; i < targetList.length; i++) {
+                                if (targetList[i] && typeof targetList[i].close === 'function') targetList[i].close();
                             }
                         }
                     },
@@ -103,7 +112,7 @@ angular.module('cf.feedback')
  * A generic service to handle the displaying of all feedback to the user.
  */
 angular.module('cf.feedback')
-    .service('$feedback', function (cfFeedback, FEEDBACK_TYPE) {
+    .service('$feedback', function (cfFeedback, FEEDBACK_TYPE, $timeout) {
 
         this.error = function (message, data, contextElement) {
             dispatchFeedback(FEEDBACK_TYPE.ERROR, message, data, contextElement);
@@ -119,6 +128,10 @@ angular.module('cf.feedback')
 
         this.alert = function (message, data, contextElement) {
             dispatchFeedback(FEEDBACK_TYPE.ALERT, message, data, contextElement);
+        };
+
+        this.close = function(contextElement) {
+            cfFeedback.close(contextElement);
         };
 
         var dispatchFeedback = function (type, message, data, contextElement) {
